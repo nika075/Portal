@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wiadomość</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="../../css/jquery.datetimepicker.css"/>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function(){
+        $("#startDate").datetimepicker({dayOfWeekStart:1});
+        });
+
+    </script>
+</head>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h2 class="navbar-brand">BetterTogether</h2>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/home/home}" style="margin-right: 10px">Główna</a></li>
+                <li><a href="/addEvent" style="margin-right: 10px">Dodaj wydarzenie</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar .ms-auto ">
+                <li><a th:href="@{/logout}" style="margin-right: 10px"><span class="glyphicon glyphicon-log-in"></span>
+                    Wyloguj</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <form class="form-horizontal" role="form" method="POST" th:action="@{/event/send/sendMail}" th:object="${mail}">
+        <table width="100%" cellpadding="0" cellspacing="0" bgcolor="0095cc">
+            <tr bgcolor="ffffff">
+                <td>
+                    <div class="row">
+                        <div class="col-md-3 field-label-responsive">
+                            <label for="to">Do</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                                    <input type="text" th:value="${mailUser}" th:name="to" id="to">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr bgcolor="ffffff">
+                <td>
+                    <div class="row">
+                        <div class="col-md-3 field-label-responsive">
+                            <label for="subject">Temat</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                                    <input type="text" th:field="*{subject}" id="subject">
+                                    </input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr bgcolor="ffffff">
+                <td>
+                    <div class="row">
+                        <div class="col-md-3 field-label-responsive">
+                            <label for="tresc">Treść</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                                    <textarea th:field="*{text}" id="tresc">
+                        </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success">Wyślij</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

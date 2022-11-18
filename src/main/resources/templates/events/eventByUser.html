@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dodane</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="../../css/jquery.datetimepicker.css"/>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function(){
+        $("#startDate").datetimepicker({dayOfWeekStart:1, timepicker:false});
+        });
+
+    </script>
+</head>
+<br>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h2 class="navbar-brand">BetterTogether</h2>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/home/home}" style="margin-right: 10px">Główna</a></li>
+                <li><a href="/addEvent" style="margin-right: 10px">Dodaj wydarzenie</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar .ms-auto ">
+                <li><a th:href="@{/app/**/logout}"><span class="glyphicon glyphicon-log-in"></span> Wyloguj</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="row justify-content-center">
+    <div class="col-auto "></div>
+    <div class="container">
+        <a th:href="@{/eventList/1}" class="btn btn-primary">Wydarzenia</a>
+        <a th:href="@{/userList/1}" class="btn btn-primary">Użytkownicy</a>
+        <h2>Wydarzenia, które dodałeś</h2>
+        <hr>
+        <div align="center">
+            <form class="m-2" th:action="@{/eventMySearch}">
+                Wyszukaj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>&nbsp;
+                <input type="submit" value="Wyszukaj"/>
+            </form>
+
+            <form class="m-2" th:action="@{/eventSearchMyByDate}">
+                Wyszukaj po dacie:
+                &nbsp; <input width="270" type="text" name="date" path="startDate" th:value="${date}" id="startDate"
+                              placeholder="Date" required/>
+                <input type="submit" value="Search"/>
+            </form>
+        </div>
+        <table class="table table-responsive table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Miejsce</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Data</th>
+                <th scope="col">Koszt</th>
+                <th scope="col">Grupowe</th>
+                <th width="400px"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="event: ${eventList}">
+                <td th:text="${event.name}"></td>
+                <td th:text="${event.place}"></td>
+                <td th:text="${event.description}"></td>
+                <td th:text="${event.category.name}"></td>
+                <td th:text="${event.date}"></td>
+                <td th:text="${event.cost}"></td>
+                <td th:text="${event.group ? 'Tak' : 'Nie'}"/>
+                <td><a th:href="@{/eventDelete/{id}(id=${event.id})}" class="btn btn-primary">Usuń</a></td>
+                <td><a th:href="@{/eventList/edit/{id}(id=${event.id})}" class="btn btn-primary">Edytuj</a>
+                <td><a th:href="@{/userEvent/{id}(id=${event.id})}" class="btn btn-primary">Uczestnicy</a></td>
+                <td><a th:href="@{/event/send/{id}(id=${event.id})}" class="btn btn-primary">Wiadomość</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <table border="0" cellpadding="6" cellspacing="0" bgcolor="#99ccff" class="table table-hover">
+            <td align="right">
+                    <span th:if="${currentPage >1}">
+                          <a th:href="@{/home/home/{currentPage}(currentPage=${currentPage - 1})}"
+                             class="btn btn-primary">poprzedni</a>
+                    </span>
+
+                <span th:if="${currentPage < totalPages}">
+                             <a th:href="@{/home/home/{currentPage}(currentPage=${currentPage + 1})}"
+                                class="btn btn-primary">nastepny</a>
+
+                    </span>
+            </td>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:icons="http://www.springframework.org/schema/jdbc"
+      xmlns:time="http://www.springframework.org/schema/mvc">
+<head>
+    <title>Dodawanie</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+
+
+    <link th:rel="stylesheet" th:href="@{/assets/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.11.2/css/all.css} "/>
+
+    <link rel="stylesheet" href="../../css/jquery.datetimepicker.css"/>
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function(){
+        $("#startDate").datetimepicker({dayOfWeekStart:1});
+        });
+    </script>
+</head>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h2 class="navbar-brand">BetterTogether</h2>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/home/home}" style="margin-right: 10px">Główna</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar .ms-auto ">
+                <li><a th:href="@{/app/**/logout}" style="margin-right: 10px"><span class="glyphicon glyphicon-log-in"></span>
+                    Wyloguj</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <form class="form-horizontal" role="form" method="POST" th:action="@{/addEvent}" th:object="${event}">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h2>Dodaj nowe wydarzenie</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="nameEvent">Nazwa</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{name}" class="form-control" id="nameEvent"
+                               placeholder="Nazwa" required autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="category">Kategoria</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <select id="category" th:field="*{category}">
+                            <option th:each="category: ${categories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.name}"></option>
+                        </select>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="placeEvent">Miejsce</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{place}" class="form-control" id="placeEvent"
+                               placeholder="Miejsce" required autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="description">Opis</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <textarea th:field="*{description}" id="description">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="startDate">Data i czas</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input width="270" type="text" path="startDate" th:field="*{date}" id="startDate"
+                               placeholder="Date"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="koszt">Koszt</label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon" style="width: 2.6rem"></div>
+                        <input type="text" th:field="*{cost}" class="form-control" id="koszt"
+                               placeholder="0.00zł" required autofocus>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 field-label-responsive">
+                <label for="checkYes">Wydarzenie grupowe</label>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon" style="width: 2.6rem"></div>
+                    <div class="form-check form-check-inline">
+                        <input th:field="*{group}" class="form-check-input" type="checkbox" id="checkYes" value="Tak">
+                        <label class="form-check-label" for="checkYes">Tak</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-success">Dodaj</button>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+</body>
+</html>

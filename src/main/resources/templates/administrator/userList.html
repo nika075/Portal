@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Użytkownicy</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.min.css">
+</head>
+<br>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <h2 class="navbar-brand">BetterTogether</h2>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a th:href="@{/home/home}" style="margin-right: 10px">Główna</a></li>
+                <li><a href="/addEvent" style="margin-right: 10px">Dodaj wydarzenie</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar .ms-auto ">
+                <li><a href="/profil" style="margin-right: 10px">Profil</a></li>
+                <li><a th:href="@{/app/**/logout}"><span class="glyphicon glyphicon-log-in"></span> Wyloguj</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="row justify-content-center">
+    <div class="col-auto"></div>
+    <div class="container">
+        <a th:href="@{/eventList/1}" class="btn btn-primary">Wydarzenia</a>
+        <a th:href="@{/eventByUser/}" class="btn btn-primary">Wydarzenia własne</a>
+        <h2>Użytkownicy</h2>
+        <hr>
+        <div align="center">
+            <form class="m-2" th:action="@{/userSearch}">
+                Wyszukaj: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+                &nbsp;
+                <input type="submit" value="Wyszukaj"/>
+            </form>
+        </div>
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Imię</th>
+                <th scope="col">Nazwisko</th>
+                <th scope="col">Zainteresowania</th>
+                <th th:if="${rol=='admin'}" scope="col">Email</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${userList}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.lastName}"></td>
+                <td th:text="${user.hobby}"></td>
+                <td th:if="${rol=='admin'}" th:text="${user.email}"></td>
+                <td><a th:if="${rol=='admin'}" th:href="@{/userDelete/{id}(id=${user.id})}"
+                       class="btn btn-primary">Usuń</a>
+                <td><a th:if="${rol=='admin'}" th:href="@{/userList/edit/{id}(id=${user.id})}" class="btn btn-primary">Edytuj</a></td>
+                <td><a th:if="${rol=='user'}" th:href="@{/sendMail/{id}(id=${user.id})}" class="btn btn-primary">Wiadomość</a></td>
+                <td><a th:if="${rol=='admin'}" th:href="@{/send/{id}(id=${user.id})}" class="btn btn-primary">Wiadomość</a></td>
+                <td><a th:href="@{/blockUser/{id}(id=${user.id})}" class="btn btn-primary">Zablokuj</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <table border="0" cellpadding="6" cellspacing="0" bgcolor="#99ccff" class="table table-hover">
+            <td align="right">
+                    <span th:if="${currentPage >1}">
+                          <a th:href="@{/eventList/{currentPage}(currentPage=${currentPage - 1})}"
+                             class="btn btn-primary">poprzedni</a>
+                    </span>
+
+                <span th:if="${currentPage < totalPages}">
+                             <a th:href="@{/eventList/{currentPage}(currentPage=${currentPage + 1})}"
+                                class="btn btn-primary">nastepny</a>
+
+                    </span>
+            </td>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

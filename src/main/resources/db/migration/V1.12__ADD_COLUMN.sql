@@ -1,0 +1,1 @@
+ALTER TABLE events ADD events_place VARCHAR(150)

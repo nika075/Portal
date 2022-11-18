@@ -1,0 +1,1 @@
+ALTER TABLE events ALTER COLUMN events_date TYPE TIMESTAMP
